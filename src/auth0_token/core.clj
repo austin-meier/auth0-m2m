@@ -1,8 +1,10 @@
 (ns auth0-token.core
+  (:gen-class)
   (:require [clj-http.client :as client]
-            [clojure.data.json :as json]
+            [charred.api :as charred]
             [auth0-token.secrets :refer [secrets auth0-token-url]]
             [clj-time.core :as t]))
+
 
 (def token-cache (atom {}))
 
@@ -32,7 +34,8 @@
 (defn auth0-token []
   (let [response (client/post auth0-token-url
                               {:headers {"content-type" "application/json"}
-                               :body (json/write-str
+                               :cookie-policy :standard
+                               :body (charred/write-json-str
                                       {:client_id (:client_id secrets)
                                        :client_secret (:client_secret secrets)
                                        :audience "https://chiligrafx.com"
@@ -40,7 +43,7 @@
                                        :username (:username secrets)
                                        :password (:password secrets)})})]
     (if (= (:status response) 200)
-      (let [resp (json/read-str (:body response))]
+      (let [resp (charred/read-json (:body response))]
         {:expires-in (get resp "expires_in")
          :token (get resp "access_token")})
       (throw (ex-info "Failed to get token from Auth0" {:response response})))))
@@ -59,4 +62,5 @@
         (gen-token environment))))
 
 
-(get-token "ft-nocool")
+(defn -main [& args]
+  (println (get-token (first args))))

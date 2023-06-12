@@ -36,8 +36,9 @@
                                       {:client_id (:client_id secrets)
                                        :client_secret (:client_secret secrets)
                                        :audience "https://chiligrafx.com"
-                                       :grant_type "client_credentials"
-                                       :claims {"https://chili-publish.com/roles" "FA"}})})]
+                                       :grant_type "password"
+                                       :username (:username secrets)
+                                       :password (:password secrets)})})]
     (if (= (:status response) 200)
       (let [resp (json/read-str (:body response))]
         {:expires-in (get resp "expires_in")
@@ -58,4 +59,4 @@
         (gen-token environment))))
 
 
-(get-token "ft-nostress")
+(get-token "ft-nocool")

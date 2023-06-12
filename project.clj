@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [clj-http "3.12.3"]
                  [org.clojure/data.json "2.4.0"]
-                 [clj-time "0.15.2"]]
+                 [clj-time "0.15.2"]
+                 [org.clojure/core.cache "1.0.225"]]
   :repl-options {:init-ns auth0-token.core})

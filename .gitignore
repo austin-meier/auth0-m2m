@@ -14,3 +14,5 @@ pom.xml.asc
 /.clj-kondo/
 /.lsp/
 /src/auth0_token/secrets.clj
+/src/.DS_Store
+/src/auth0_token/.DS_Store
